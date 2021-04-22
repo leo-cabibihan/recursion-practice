@@ -1,4 +1,5 @@
 #cmu https://www.cs.cmu.edu/~tcortina/activate/ct/lab8ques.pdf
+import math
 
 def cmu():
   #q1
@@ -125,18 +126,54 @@ class Berkeley2:
   def missing_digits(self, n):
     if n < 10:
       return 0
-    return 1 if n//10 + self.missing_digits(n//10)
+    def gap(smol, big):
+      if smol == big or smol + 1 == big:
+        return 0
+      return 1 + gap(smol, big - 1)
+    return gap(n // 10 % 10, n % 10) + self.missing_digits(n // 10)
+
+
+  #4
+  
+  def count_change(self, total):
+
+    def largest_power(m):
+      if m == 0:
+        return 0
+      if math.log(m,2) % 1 == 0:
+        return m
+      return largest_power(m - 1)
+
+    def count_partitions(n,m):
+      if  n == 0:
+        return 1
+      elif n < 0:
+        return 0   
+      elif m == 0:
+        return 0
+      else:
+        return count_partitions(n-m, m) + count_partitions(n, largest_power(m - 1))
+    return count_partitions(total, largest_power(total))
+   
+
+  #5 towers of hanoi
+
+      
+  
+    
+    
 
 def testBerkeley2():
   a = Berkeley2()
   #print(a.num_eights(1808))
   #print(a.ping_pong(23))
-
+  #print(a.missing_digits(12458))
+  #print(a.count_change(100))
+  
 testBerkeley2()
 #update your notion to do list after this
 
 #berkeley 3 https://cs61a.org/examprep/examprep03/
-
 
 
 #stanford https://web.stanford.edu/class/cs9/lectures/06/Recursion%20Problems.pdf nvm too advanced
